@@ -1,7 +1,5 @@
 package com.example.task3.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,27 +9,30 @@ import org.hibernate.annotations.CreationTimestamp;
 import java.time.Instant;
 
 @Entity
-@Table(name = "chats")
+@Table(name = "feedbacks")
 @Getter
 @Setter
 @NoArgsConstructor
-public class Chat {
+public class Feedback {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
-    @JsonBackReference
-    @JoinColumn(name = "thread_id", nullable = false)
-    private ChatThread thread;
+    @JoinColumn(name = "member_id", nullable = false)
+    private Member member;
+
+    @ManyToOne
+    @JoinColumn(name = "chat_id", nullable = false)
+    private Chat chat;
 
     @Column(nullable = false)
-    private String question;
-
-    @Column(nullable = false)
-    private String answer;
+    private boolean isPositive;
 
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
     private Instant createdAt;
+
+    @Column(nullable = false)
+    private String status; // "pending" or "resolved"
 }
