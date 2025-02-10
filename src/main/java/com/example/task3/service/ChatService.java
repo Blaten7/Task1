@@ -3,8 +3,6 @@ package com.example.task3.service;
 import com.example.task3.entity.Chat;
 import com.example.task3.entity.ChatThread;
 import com.example.task3.entity.Member;
-import com.example.task3.entity.ChatThread;
-import com.example.task3.repository.ChatThreadRepository;
 import com.example.task3.repository.ChatThreadRepository;
 import com.example.task3.repository.ChatRepository;
 import org.springframework.stereotype.Service;

@@ -23,7 +23,7 @@ public class ChatThread {
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
-    @OneToMany(mappedBy = "thread", cascade = CascadeType.ALL, orphanRemoval = true)  // ✅ "thread"로 매핑됨
+    @OneToMany(mappedBy = "thread", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Chat> chats;
 
     @CreationTimestamp
