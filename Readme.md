@@ -12,7 +12,7 @@ AI 챗봇 서비스의 백엔드 API입니다.
 
 ## 🛠 기술 스택
 - **Backend:** Spring Boot 3.2, Java 17, Spring Security, JPA (Hibernate)
-- **Database:** PostgreSQL
+- **Database:** PostgreSQL 15.8
 - **Authentication:** JWT (JSON Web Token)
 - **API 문서화:** Postman
 
