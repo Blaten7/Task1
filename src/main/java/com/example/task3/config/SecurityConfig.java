@@ -49,9 +49,9 @@ public class SecurityConfig {
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .authenticationProvider(authenticationProvider)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/member/login", "/api/member/register").permitAll()
-                        .anyRequest().authenticated()
-//                        .anyRequest().permitAll()
+//                        .requestMatchers("/api/member/login", "/api/member/register").permitAll()
+//                                .requestMatchers("/api/feedbacks/{feedbackId}/status", "/api/reports/stats", "/api/reports/daily").hasRole("ROLE_ADMIN")
+                        .anyRequest().permitAll()
                 );
 
         return http.build();

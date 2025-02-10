@@ -33,11 +33,13 @@ public class AuthService {
     }
 
     public String login(String email, String password) {
+        System.out.println("여 오냐");
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
-
+        System.out.println("여 오냐2");
         Member member = memberRepository.findByEmail(email).orElseThrow();
-
-        return jwtUtil.generateToken(member);
+        String token = jwtUtil.generateToken(member);
+        System.out.println("토큰 : "+token);
+        return token;
 
     }
 }
