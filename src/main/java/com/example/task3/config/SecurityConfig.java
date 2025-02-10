@@ -51,6 +51,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/member/login", "/api/member/register").permitAll()
                         .anyRequest().authenticated()
+//                        .anyRequest().permitAll()
                 );
 
         return http.build();

@@ -31,6 +31,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         final String authHeader = request.getHeader("Authorization");
         String path = request.getServletPath();
         System.out.println("경로 : " + path);
+
         if (path.equals("/api/member/login") || path.equals("/api/member/register")) {
             filterChain.doFilter(request, response);
             return;
