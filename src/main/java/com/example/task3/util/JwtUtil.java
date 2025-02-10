@@ -1,5 +1,6 @@
 package com.example.task3.util;
 
+import com.example.task3.entity.Member;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,17 +21,15 @@ public class JwtUtil {
     }
 
 
-    public String generateToken(UserDetails userDetails) {
-        List<String> roles = userDetails.getAuthorities().stream()
-                .map(grantedAuthority -> grantedAuthority.getAuthority())
-                .collect(Collectors.toList());
+    public String generateToken(Member member) {
+        String roles = member.getRole();
 
         return Jwts.builder()
-                .setSubject(userDetails.getUsername())
+                .setSubject(member.getEmail())  // username 대신 email 사용
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .signWith(getSigningKey(), SignatureAlgorithm.HS256)
-                .claim("roles", roles) // 권한 추가
+                .claim("roles", roles)
                 .compact();
     }
 

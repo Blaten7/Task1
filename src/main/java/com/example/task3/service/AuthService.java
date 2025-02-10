@@ -34,8 +34,13 @@ public class AuthService {
     }
 
     public String login(String email, String password) {
+        // 인증 과정
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
-        UserDetails userDetails = (UserDetails) memberRepository.findByEmail(email).orElseThrow();
-        return jwtUtil.generateToken(userDetails);
+
+        // Member 조회
+        Member member = memberRepository.findByEmail(email).orElseThrow();
+
+        return jwtUtil.generateToken(member);
+
     }
 }
