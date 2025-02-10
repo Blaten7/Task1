@@ -7,14 +7,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import java.security.Key;
 import java.util.Date;
-import java.util.List;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 @Component
 public class JwtUtil {
     private static final String SECRET_KEY = "your-very-secret-key-that-should-be-long-enough";
-    private static final long EXPIRATION_TIME = 1000 * 60 * 60; // 1 hour
+    private static final long EXPIRATION_TIME = 1000 * 60 * 60;
 
     private Key getSigningKey() {
         return Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
@@ -25,7 +23,7 @@ public class JwtUtil {
         String roles = member.getRole();
 
         return Jwts.builder()
-                .setSubject(member.getEmail())  // username 대신 email 사용
+                .setSubject(member.getEmail())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .signWith(getSigningKey(), SignatureAlgorithm.HS256)
