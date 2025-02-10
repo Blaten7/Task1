@@ -1,5 +1,8 @@
 package com.example.task3.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,9 +23,11 @@ public class ChatThread {
     private Long id;
 
     @ManyToOne
+    @JsonBackReference
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "thread", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Chat> chats;
 

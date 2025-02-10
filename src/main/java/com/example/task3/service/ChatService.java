@@ -14,13 +14,15 @@ import java.util.Optional;
 public class ChatService {
     private final ChatThreadRepository chatThreadRepository;
     private final ChatRepository chatRepository;
+    private final OpenAIService openAIService;
 
-    public ChatService(ChatThreadRepository chatThreadRepository, ChatRepository chatRepository) {
+    public ChatService(ChatThreadRepository chatThreadRepository, ChatRepository chatRepository, OpenAIService openAIService) {
         this.chatThreadRepository = chatThreadRepository;
         this.chatRepository = chatRepository;
+        this.openAIService = openAIService;
     }
 
-    public Chat createChat(Member member, String question, String answer) {
+    public Chat createChat(Member member, String question, String model) {
         ChatThread thread = chatThreadRepository.findTopByMemberIdOrderByCreatedAtDesc(member.getId())
                 .filter(t -> t.getCreatedAt() != null && Instant.now().minusSeconds(1800).isBefore(t.getCreatedAt()))
                 .orElseGet(() -> {
@@ -28,13 +30,15 @@ public class ChatService {
                     newThread.setMember(member);
                     return chatThreadRepository.save(newThread);
                 });
+        String answers = openAIService.getAnswer(question, model);
 
         Chat chat = new Chat();
         chat.setThread(thread);
         chat.setQuestion(question);
-        chat.setAnswer(answer);
+        chat.setAnswer(answers);
         return chatRepository.save(chat);
     }
+
 
     public List<Chat> getChatsByThread(Long threadId) {
         return chatRepository.findByThreadIdOrderByCreatedAtAsc(threadId);

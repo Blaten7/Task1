@@ -1,9 +1,13 @@
 package com.example.task3.controller;
 
+import com.example.task3.dto.ChatRequest;
+import com.example.task3.dto.ChatResponseDto;
 import com.example.task3.entity.Chat;
 import com.example.task3.entity.Member;
 import com.example.task3.repository.MemberRepository;
 import com.example.task3.service.ChatService;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/chats")
 public class ChatController {
@@ -25,16 +30,19 @@ public class ChatController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Chat> createChat(@AuthenticationPrincipal UserDetails userDetails,
-                                           @RequestBody Map<String, String> request) {
+    public ResponseEntity<ChatResponseDto> createChat(@AuthenticationPrincipal UserDetails userDetails,
+                                           @RequestBody ChatRequest request) {
+        log.info("대화 생성 컨트롤러 진입");
+        if (userDetails == null) {
+            log.error("🚨 인증되지 않은 사용자 요청 발생");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        log.info("✅ 인증된 사용자: " + userDetails.getUsername());
+
         Member member = memberRepository.findByEmail(userDetails.getUsername())
                 .orElseThrow(() -> new RuntimeException("Member not found"));
-
-        String question = request.get("question");
-        String answer = request.get("answer");
-
-        Chat chat = chatService.createChat(member, question, answer);
-        return ResponseEntity.ok(chat);
+        Chat chat = chatService.createChat(member, request.getQuestion(), request.getModel());
+        return ResponseEntity.ok(new ChatResponseDto(chat));
     }
 
     @GetMapping("/thread/{threadId}")
