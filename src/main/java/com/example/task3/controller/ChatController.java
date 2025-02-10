@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/chats")
@@ -39,5 +40,15 @@ public class ChatController {
     @GetMapping("/thread/{threadId}")
     public ResponseEntity<List<Chat>> getChatsByThread(@PathVariable Long threadId) {
         return ResponseEntity.ok(chatService.getChatsByThread(threadId));
+    }
+
+    @DeleteMapping("/thread/{threadId}")
+    public ResponseEntity<Void> deleteThread(@AuthenticationPrincipal UserDetails userDetails, @PathVariable Long threadId) {
+        Optional<Member> member = memberRepository.findByEmail(userDetails.getUsername());
+        if (member.isPresent()) {
+            chatService.deleteThread(member.get(), threadId);
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.notFound().build();
     }
 }

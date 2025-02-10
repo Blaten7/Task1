@@ -8,6 +8,7 @@ import com.example.task3.repository.ChatRepository;
 import org.springframework.stereotype.Service;
 import java.time.Instant;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ChatService {
@@ -37,5 +38,16 @@ public class ChatService {
 
     public List<Chat> getChatsByThread(Long threadId) {
         return chatRepository.findByThreadIdOrderByCreatedAtAsc(threadId);
+    }
+
+    public void deleteThread(Member member, Long threadId) {
+        ChatThread thread = chatThreadRepository.findById(threadId)
+                .orElseThrow(() -> new IllegalArgumentException("Thread not found"));
+
+        if (!thread.getMember().getId().equals(member.getId())) {
+            throw new SecurityException("You are not authorized to delete this thread");
+        }
+
+        chatThreadRepository.delete(thread);
     }
 }
