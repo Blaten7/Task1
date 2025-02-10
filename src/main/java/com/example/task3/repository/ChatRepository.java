@@ -15,4 +15,7 @@ public interface ChatRepository extends JpaRepository<Chat, Long> {
 
     @Query("SELECT COUNT(c) FROM Chat c WHERE c.createdAt >= :fromTime")
     long countChatsSince(@Param("fromTime") Instant fromTime);
+
+    @Query("SELECT c FROM Chat c WHERE c.createdAt >= :since")
+    List<Chat> findAllChatsSince(@Param("since") Instant since);
 }
