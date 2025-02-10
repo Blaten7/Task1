@@ -11,7 +11,7 @@ AI 챗봇 서비스의 백엔드 API입니다.
 - **관리자 대시보드** (사용자 활동 기록, 보고서 다운로드)
 
 ## 🛠 기술 스택
-- **Backend:** Spring Boot 3.2, Spring Security, JPA (Hibernate)
+- **Backend:** Spring Boot 3.2, Java 17, Spring Security, JPA (Hibernate)
 - **Database:** PostgreSQL
 - **Authentication:** JWT (JSON Web Token)
 - **API 문서화:** Postman
@@ -22,7 +22,7 @@ AI 챗봇 서비스의 백엔드 API입니다.
 
 2️⃣ **로컬 실행 방법**
 ```sh
-git clone https://github.com/your-username/Task1.git
+git clone https://github.com/Blaten7/Task1.git
 cd Task1
 ./gradlew bootRun
 ```
