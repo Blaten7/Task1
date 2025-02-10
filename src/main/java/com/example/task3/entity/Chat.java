@@ -20,7 +20,7 @@ public class Chat {
 
     @ManyToOne
     @JoinColumn(name = "thread_id", nullable = false)
-    private Thread thread;
+    private ChatThread thread;
 
     @Column(nullable = false)
     private String question;

@@ -10,11 +10,11 @@ import java.time.Instant;
 import java.util.List;
 
 @Entity
-@Table(name = "threads")
+@Table(name = "chat_threads")
 @Getter
 @Setter
 @NoArgsConstructor
-public class Thread {
+public class ChatThread {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -23,7 +23,7 @@ public class Thread {
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
-    @OneToMany(mappedBy = "thread", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "thread", cascade = CascadeType.ALL, orphanRemoval = true)  // ✅ "thread"로 매핑됨
     private List<Chat> chats;
 
     @CreationTimestamp
